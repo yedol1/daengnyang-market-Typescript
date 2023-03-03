@@ -5,7 +5,7 @@ const BASIC_URL = process.env.REACT_APP_API_BASIC_URL;
 export const imgApiInstance: AxiosInstance = axios.create({
   baseURL: BASIC_URL + '/image',
   headers: {
-    'Content-type': 'application/json',
+    'Content-type': 'multipart/form-data',
   },
   withCredentials: true,
 });
