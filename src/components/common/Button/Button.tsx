@@ -1,6 +1,18 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
+interface ButtonProps {
+  children: string;
+  size: 'L' | 'M' | 'MS' | 'S';
+  disabled?: boolean;
+  type?: 'button' | 'submit' | 'reset' | undefined;
+  backgroundColor?: string;
+  borderColor?: string;
+  textColor?: string;
+  onClickHandler?: () => void;
+  isActive?: boolean;
+}
+
 const Button = ({
   children,
   size,
@@ -11,7 +23,7 @@ const Button = ({
   textColor = 'var(--main-bg-color)',
   onClickHandler,
   isActive = true,
-}) => {
+}: ButtonProps) => {
   return (
     <StyledButton
       disabled={disabled}
