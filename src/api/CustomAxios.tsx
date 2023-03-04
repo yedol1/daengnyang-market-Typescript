@@ -18,6 +18,15 @@ export const userApiInstance: AxiosInstance = axios.create({
   withCredentials: false,
 });
 
+export const putUserApiInstance: AxiosInstance = axios.create({
+  baseURL: BASIC_URL + '/user',
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+    'Content-type': 'application/json',
+  },
+  withCredentials: false,
+});
+
 export const profileApiInstance: AxiosInstance = axios.create({
   baseURL: BASIC_URL + '/profile',
   headers: {
