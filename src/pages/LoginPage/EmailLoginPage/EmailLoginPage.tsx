@@ -6,12 +6,23 @@ import Button from '../../../components/common/Button/Button';
 import EmailLoginInput from './EmailLoginInput';
 import styled from 'styled-components';
 import { AuthContextStore } from '../../../context/AuthContext';
+import { postLogin } from '../../../api/User';
+
+interface AlertMessage {
+  emailAlertMessage: string;
+  passwordAlertMessage: string;
+}
+
+interface InputsValidState {
+  email: boolean;
+  password: boolean;
+}
 
 const EmailLoginPage = () => {
   const navigate = useNavigate();
   const { setUserToken, setUserAccountname } = useContext(AuthContextStore);
 
-  const [loginFail, setLoginFail] = useState(false);
+  const [loginFail, setLoginFail] = useState<boolean>(false);
 
   const inputList = [
     {
@@ -30,12 +41,12 @@ const EmailLoginPage = () => {
     },
   ];
 
-  const [alertMessage, setAlertMessage] = useState({
+  const [alertMessage, setAlertMessage] = useState<AlertMessage>({
     emailAlertMessage: '',
     passwordAlertMessage: '',
   });
 
-  const [inputsValidState, setInputsValidState] = useState({ email: false, password: false });
+  const [inputsValidState, setInputsValidState] = useState<InputsValidState>({ email: false, password: false });
 
   const ChangeLoginFailStateToFail = () => {
     setLoginFail(false);
@@ -49,23 +60,17 @@ const EmailLoginPage = () => {
     setAlertMessage,
     ChangeLoginFailStateToFail,
   });
-
-  const onSubmitHandler = (e) => {
+  // const option = postLogin;
+  const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const option = {
-      url: 'https://mandarin.api.weniv.co.kr/user/login',
-      method: 'POST',
-      headers: { 'Content-type': 'application/json' },
-      data: {
-        user: {
-          email: useInputData.values['email'],
-          password: useInputData.values['password'],
-        },
+    const data = {
+      user: {
+        email: useInputData.values['email'],
+        password: useInputData.values['password'],
       },
     };
-
-    axios(option)
+    console.log(data);
+    postLogin(data)
       .then((res) => {
         if (res.data.status === 422) {
           setLoginFail(true);
@@ -80,7 +85,7 @@ const EmailLoginPage = () => {
       });
   };
 
-  const saveUserInfo = (res) => {
+  const saveUserInfo = (res: any) => {
     const token = res.data.user.token;
     const accountname = res.data.user.accountname;
 
