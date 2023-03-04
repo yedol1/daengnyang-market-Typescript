@@ -1,4 +1,4 @@
-import { EmailVaildateType, JoinMembershipType, LoginType, MyProfileResType, AccountNameVaildateType } from './Types';
+import { EmailVaildateType, JoinMembershipType, LoginType, MyProfileResType, AccountNameVaildateType } from './types';
 import { AxiosPromise } from 'axios';
 import { userApiInstance } from '../CustomAxios';
 
