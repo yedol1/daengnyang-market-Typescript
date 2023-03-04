@@ -15,7 +15,7 @@ export const userApiInstance: AxiosInstance = axios.create({
   headers: {
     'Content-type': 'application/json',
   },
-  withCredentials: true,
+  withCredentials: false,
 });
 
 export const profileApiInstance: AxiosInstance = axios.create({
