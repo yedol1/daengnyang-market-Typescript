@@ -1,5 +1,18 @@
 import { useEffect, useState } from 'react';
 import { regexEmail } from '../utils/ValidationRegex';
+interface IUseInput {
+  initailValues: { email: string; password: string };
+  inputsValidState: { email: boolean; password: boolean };
+  setInputsValidState: React.Dispatch<React.SetStateAction<{ email: boolean; password: boolean }>>;
+  alertMessage: { emailAlertMessage: string; passwordAlertMessage: string };
+  setAlertMessage: React.Dispatch<
+    React.SetStateAction<{
+      emailAlertMessage: string;
+      passwordAlertMessage: string;
+    }>
+  >;
+  ChangeLoginFailStateToFail?: () => void | null;
+}
 
 const useInput = ({
   initailValues,
@@ -7,8 +20,8 @@ const useInput = ({
   setInputsValidState,
   alertMessage,
   setAlertMessage,
-  ChangeLoginFailStateToFail = null,
-}) => {
+  ChangeLoginFailStateToFail,
+}: IUseInput) => {
   const [values, setValues] = useState(initailValues);
   const [disabledSubmitButton, setDisabledSubmitButton] = useState(true);
   const [isPassValidation, setIsPassValidation] = useState(false);
@@ -16,7 +29,7 @@ const useInput = ({
   useEffect(() => {
     const checkDisabledSubmitButton = () => {
       let inputValues = Object.values(inputsValidState);
-      let sum = inputValues.reduce((sum, cur) => (sum += cur), 0);
+      let sum = inputValues.reduce((sum, cur) => (sum += cur ? 1 : 0), 0);
 
       if (sum === inputValues.length) {
         setDisabledSubmitButton(false);
@@ -29,11 +42,11 @@ const useInput = ({
     checkDisabledSubmitButton();
   }, [isPassValidation, inputsValidState]);
 
-  const onBlurHandler = (e) => {
+  const onBlurHandler = (e: React.FocusEvent<HTMLInputElement>) => {
     e.currentTarget.style.borderBottom = '1px solid var(--border-color)';
   };
 
-  const onFocusHandler = (e) => {
+  const onFocusHandler = (e: React.FocusEvent<HTMLInputElement>) => {
     // * 주의 * ChangeLoginFailStateToFail이 기본값(null)인 경우에는 아래 조건문을 실행하지 않음. 로그인 실패 메시지 컨트롤을 위한 코드임.
     if (ChangeLoginFailStateToFail) {
       ChangeLoginFailStateToFail();
@@ -42,7 +55,7 @@ const useInput = ({
     e.currentTarget.style.borderBottom = '1px solid var(--main-color)';
   };
 
-  const onChangeHandler = (e) => {
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
 
@@ -63,7 +76,7 @@ const useInput = ({
     setIsPassValidation(true);
   };
 
-  const checkEmailValidation = (value) => {
+  const checkEmailValidation = (value: string) => {
     setInputsValidState({ ...inputsValidState, email: false });
 
     if (!value) {
@@ -72,7 +85,10 @@ const useInput = ({
     }
 
     if (!regexEmail.test(value)) {
-      setAlertMessage({ ...alertMessage, emailAlertMessage: '* 이메일 형식에 맞지 않습니다.' });
+      setAlertMessage({
+        ...alertMessage,
+        emailAlertMessage: '* 이메일 형식에 맞지 않습니다.',
+      });
       return false;
     }
 
@@ -81,7 +97,7 @@ const useInput = ({
     return true;
   };
 
-  const checkPasswordValidation = (value) => {
+  const checkPasswordValidation = (value: string) => {
     setInputsValidState({ ...inputsValidState, password: false });
 
     if (!value) {
