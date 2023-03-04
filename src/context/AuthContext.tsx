@@ -1,11 +1,5 @@
 import { createContext, useState } from 'react';
-
-export type AuthContextType = {
-  userToken: string | null;
-  userAccountname: string | null;
-  setUserToken: (token: string | null) => void;
-  setUserAccountname: (accountname: string | null) => void;
-};
+import { AuthContextType } from './types';
 
 export const AuthContextStore = createContext<AuthContextType>({
   userToken: localStorage.getItem('token') || null,
