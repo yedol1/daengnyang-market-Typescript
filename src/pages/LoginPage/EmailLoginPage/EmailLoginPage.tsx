@@ -7,16 +7,7 @@ import EmailLoginInput from './EmailLoginInput';
 import styled from 'styled-components';
 import { AuthContextStore } from '../../../context/AuthContext';
 import { postLogin } from '../../../api/User';
-
-interface AlertMessage {
-  emailAlertMessage: string;
-  passwordAlertMessage: string;
-}
-
-interface InputsValidState {
-  email: boolean;
-  password: boolean;
-}
+import { AlertMessage, InputsValidState } from './types';
 
 const EmailLoginPage = () => {
   const navigate = useNavigate();
