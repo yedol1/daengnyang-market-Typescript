@@ -1,6 +1,6 @@
 import { EmailVaildateType, JoinMembershipType, LoginType, MyProfileResType, AccountNameVaildateType } from './types';
 import { AxiosPromise } from 'axios';
-import { userApiInstance } from '../CustomAxios';
+import { userApiInstance, getUserApiInstance } from '../CustomAxios';
 
 /* 회원가입 */
 export const postJoinMembership = (joinUserData: JoinMembershipType): AxiosPromise => {
@@ -14,7 +14,7 @@ export const postLogin = (loginData: LoginType): AxiosPromise => {
 
 /* 내 프로필 정보 불러오기 */
 export const getMyProfInfo = (): AxiosPromise<{ data: MyProfileResType[] }> => {
-  return userApiInstance.get('/myinfo');
+  return getUserApiInstance.get('/myinfo');
 };
 
 /* 이메일 검증 */
