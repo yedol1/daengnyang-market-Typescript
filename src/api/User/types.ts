@@ -6,7 +6,7 @@ export interface JoinMembershipType {
     password: string;
     accountname: string;
     intro: string;
-    image: string; // 예시) https://mandarin.api.weniv.co.kr/1641906557953.png
+    image: string;
   };
 }
 
